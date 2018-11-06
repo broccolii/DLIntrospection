@@ -70,6 +70,7 @@ static void getSuper(Class class, NSMutableString *result) {
     for (unsigned int i = 0 ; i < classesCount; i++) {
         [result addObject:NSStringFromClass(classes[i])];
     }
+    free(classes);
     return [result sortedArrayUsingSelector:@selector(compare:)];
 }
 
@@ -183,7 +184,7 @@ static void getSuper(Class class, NSMutableString *result) {
         
         for (NSUInteger idx = offset; idx < args; idx++) {
             NSString *returnType = [NSString decodeType:method_copyArgumentType(methods[i], (unsigned int)idx)];
-            selParts[idx - offset] = [NSString stringWithFormat:@"%@:(%@)arg%lu",
+            selParts[idx - offset] = [NSString stringWithFormat:@"%@:(%@)arg%u",
                                       selParts[idx - offset],
                                       returnType,
                                       idx - 2];
